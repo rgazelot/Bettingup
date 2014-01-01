@@ -1,3 +1,15 @@
+bettingup_core:
+    resource: "@BettingupCoreBundle/Resources/config/routing.xml"
+    prefix:   /
+
+bettingup_user:
+    resource: "@BettingupUserBundle/Resources/config/routing.xml"
+    prefix:   /
+
+bettingup_api:
+    resource: "@BettingupApiBundle/Resources/config/routing.xml"
+    prefix:   /
+
 users:
     type: rest
     prefix: /api/1

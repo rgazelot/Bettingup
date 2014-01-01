@@ -9,6 +9,8 @@
 /vendor/
 /bin/
 /web/bundles/
+/web/coverage/
+/web/components/
 
 /composer.phar
 .DS_Store
