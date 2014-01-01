@@ -10,7 +10,7 @@ bettingup_api:
     resource: "@BettingupApiBundle/Resources/config/routing.xml"
     prefix:   /
 
-users:
-    type: rest
-    prefix: /api/1
-    resource: Acme\DemoBundle\Controller\FOSController
+# users:
+#     type: rest
+#     prefix: /api/1
+#     resource: Acme\DemoBundle\Controller\FOSController
