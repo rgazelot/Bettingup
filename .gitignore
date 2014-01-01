@@ -13,4 +13,6 @@
 /web/components/
 
 /composer.phar
+
 .DS_Store
+behat.yml

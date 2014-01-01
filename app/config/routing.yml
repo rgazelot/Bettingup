@@ -1,16 +1,19 @@
 bettingup_core:
-    resource: "@BettingupCoreBundle/Resources/config/routing.xml"
+    resource: "@BettingupCoreBundle/Controller/"
     prefix:   /
+    type: annotation
 
 bettingup_user:
-    resource: "@BettingupUserBundle/Resources/config/routing.xml"
+    resource: "@BettingupUserBundle/Controller/"
     prefix:   /
+    type: annotation
 
-bettingup_api:
-    resource: "@BettingupApiBundle/Resources/config/routing.xml"
+# bettingup_api:
+#     resource: "@BettingupApiBundle/Controller/"
+#     prefix:   /
+#     type: annotation
+
+api_bettingup_user:
+    resource: "@BettingupUserBundle/Resources/config/routing.yml"
     prefix:   /
-
-# users:
-#     type: rest
-#     prefix: /api/1
-#     resource: Acme\DemoBundle\Controller\FOSController
+    type: rest

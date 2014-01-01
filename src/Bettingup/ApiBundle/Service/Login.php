@@ -7,8 +7,8 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\SecurityContextInterface,
     Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-use Bets\UserBundle\Entity\User,
-    Bets\UserBundle\Exception\UserNotFoundException;
+use Bettingup\UserBundle\Entity\User,
+    Bettingup\UserBundle\Exception\UserNotFoundException;
 
 class Login
 {
@@ -23,7 +23,7 @@ class Login
 
     public function authenticate($token)
     {
-        $user = $this->em->getRepository('BetsUserBundle:User')->findOneby(['apiKey' => $token]);
+        $user = $this->em->getRepository('BettingupUserBundle:User')->findOneby(['apiKey' => $token]);
 
         if (!$user instanceof User) {
             throw new UserNotFoundException;

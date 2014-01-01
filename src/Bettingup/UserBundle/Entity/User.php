@@ -4,12 +4,9 @@ namespace Bettingup\UserBundle\Entity;
 
 use \Datetime;
 
-use Doctrine\ORM\Mapping as ORM,
-    Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Security\Core\User\UserInterface;
-
-use Bets\BettingBundle\Entity\Ticket;
 
 /**
  * User
@@ -50,6 +47,13 @@ class User implements UserInterface, \Serializable
     private $email;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="apiKey", type="string")
+     */
+    private $apiKey;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="isActive", type="boolean")
@@ -64,14 +68,7 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="apiKey", type="string")
-     */
-    private $apiKey;
-
-    /**
-     * @var datetime
+     * @var \DateTime
      *
      * @ORM\Column(name="signupAt", type="datetime")
      */
@@ -79,7 +76,7 @@ class User implements UserInterface, \Serializable
 
     public function __construct()
     {
-        $this->isActive = true;
+        $this->isActive = false;
         $this->signupAt = new Datetime;
         $this->roles    = ['ROLE_USER'];
         $this->apiKey   = sha1(uniqid(true) . time());
@@ -230,9 +227,32 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * Set roles
+     *
+     * @param array $roles
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Get roles
+     *
+     * @return array
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
      * Set signupAt
      *
-     * @param string $signupAt
+     * @param \DateTime $signupAt
      * @return User
      */
     public function setSignupAt($signupAt)
@@ -245,33 +265,11 @@ class User implements UserInterface, \Serializable
     /**
      * Get signupAt
      *
-     * @return string
+     * @return \DateTime
      */
     public function getSignupAt()
     {
         return $this->signupAt;
-    }
-
-    /**
-     * Set roles
-     *
-     * @param array $roles
-     *
-     * @return  User
-     */
-    public function setRoles(array $roles)
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRoles()
-    {
-        return $this->roles;
     }
 
     /**

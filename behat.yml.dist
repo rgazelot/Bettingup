@@ -1,0 +1,23 @@
+default:
+  context:
+    parameters:
+      reset_database  : false
+      environment     : prod
+      debug           : false
+
+  # formatter:
+  #   name: progress
+
+  options:
+    stop_on_failure: true
+
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url : 'http://localhost:8888/Bets/web/'
+      goutte   :
+        guzzle_parameters :
+          curl.options     :
+            CURLOPT_CONNECTTIMEOUT : 0
+            CURLOPT_TIMEOUT        : 900
+
+      default_session: goutte

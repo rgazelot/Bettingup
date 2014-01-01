@@ -1,0 +1,5 @@
+users:
+    type: rest
+    resource: Bettingup\UserBundle\Controller\ApiUserController
+    prefix: /api/1
+    name_prefix: api_
