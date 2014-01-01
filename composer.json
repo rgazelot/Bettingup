@@ -22,6 +22,11 @@
         "jms/serializer-bundle": "0.13.*",
         "friendsofsymfony/rest-bundle": "1.1.*"
     },
+    "require-dev": {
+        "behat/mink-extension": "~1.2.0",
+        "behat/mink-goutte-driver": "~1.0.0",
+        "phpunit/phpunit": "3.7.*"
+    },
     "scripts": {
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
