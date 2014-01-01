@@ -1,0 +1,4 @@
+users:
+    type: rest
+    prefix: /api/1
+    resource: Acme\DemoBundle\Controller\FOSController
