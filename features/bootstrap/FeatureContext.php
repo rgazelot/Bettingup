@@ -21,6 +21,10 @@ class FeatureContext extends MinkContext
     {
         $this->useContext('api', new ApiContext);
         $this->useContext('json', new JSONContext);
+
+        if (isset($parameters['debug']) && true === $parameters['debug']) {
+            $this->useContext('debug', new DebugContext);
+        }
     }
 
     /**
@@ -49,7 +53,7 @@ class FeatureContext extends MinkContext
             $body = $body->getRaw();
         }
 
-        $url        = $this->locatePath($url);
+        $url        = parent::locatePath($url);
         $parameters = array_filter($parameters, function ($parameter) {
             return '' !== $parameter && null !== $parameter;
         });
@@ -59,7 +63,7 @@ class FeatureContext extends MinkContext
             $parameters = [];
         }
 
-        $this->getSession()->getDriver()->getClient()->request($method, $this->locatePath($url), $parameters, $files ?: [], $server ?: [], $body ?: null);
+        $this->getSession()->getDriver()->getClient()->request($method, parent::locatePath($url), $parameters, $files ?: [], $server ?: [], $body ?: null);
     }
 
     /**

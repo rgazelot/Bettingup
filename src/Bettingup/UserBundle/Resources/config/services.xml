@@ -11,6 +11,8 @@
     <services>
         <service id="bettingup.api.user" class="%bettingup.api.user.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="security.encoder_factory" />
         </service>
     </services>
 

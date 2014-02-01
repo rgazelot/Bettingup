@@ -6,13 +6,17 @@ use \Datetime;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface,
+    Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert,
+    Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Bettingup\UserBundle\Entity\UserRepository")
+ * @DoctrineAssert\UniqueEntity("username")
+ * @DoctrineAssert\UniqueEntity("email")
  */
 class User implements UserInterface, \Serializable
 {
@@ -28,7 +32,11 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
+     *
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
      */
     private $username;
 
@@ -36,20 +44,32 @@ class User implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
+     *
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     *
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="apiKey", type="string")
+     * @ORM\Column(name="apiKey", type="string", unique=true)
+     *
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
      */
     private $apiKey;
 
@@ -57,6 +77,9 @@ class User implements UserInterface, \Serializable
      * @var boolean
      *
      * @ORM\Column(name="isActive", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
      */
     private $isActive;
 
@@ -64,6 +87,9 @@ class User implements UserInterface, \Serializable
      * @var array
      *
      * @ORM\Column(name="roles", type="array")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="array")
      */
     private $roles;
 
@@ -71,6 +97,9 @@ class User implements UserInterface, \Serializable
      * @var \DateTime
      *
      * @ORM\Column(name="signupAt", type="datetime")
+     *
+     * @Assert\NotNull()
+     * @Assert\DateTime()
      */
     private $signupAt;
 
@@ -80,6 +109,27 @@ class User implements UserInterface, \Serializable
         $this->signupAt = new Datetime;
         $this->roles    = ['ROLE_USER'];
         $this->apiKey   = sha1(uniqid(true) . time());
+    }
+
+    public function toArray($short = true)
+    {
+        $core = [
+            'id'        => $this->getId(),
+            'username'  => $this->getUsername(),
+            'email'     => $this->getEmail(),
+            'api_key'   => $this->getApiKey(),
+            'is_active' => $this->getIsActive(),
+            'roles'     => $this->getRoles(),
+            'signup_at' => $this->getSignupAt(),
+        ];
+
+        if (false === $short) {
+            $core = array_merge($core, [
+
+            ]);
+        }
+
+        return $core;
     }
 
     /**

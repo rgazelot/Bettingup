@@ -29,9 +29,29 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
             ->encodePassword($factory)
             ->setEmail('admin@bettingup.com')
             ->setRoles(['ROLE_USER', 'ROLE_ADMIN'])
+            ->setApiKey(sha1('admin'))
             ->setIsActive(true);
 
         $manager->persist($user);
+
+        $this->loadBehatFixtures($manager);
+
         $manager->flush();
+    }
+
+    private function loadBehatFixtures(ObjectManager $manager)
+    {
+        $factory = $this->container->get('security.encoder_factory');
+
+        $user = (new User)
+            ->setUsername('behat')
+            ->setPassword('pass')
+            ->encodePassword($factory)
+            ->setEmail('behat@bettingup.com')
+            ->setRoles(['ROLE_USER'])
+            ->setApiKey(sha1('behat'))
+            ->setIsActive(true);
+
+        $manager->persist($user);
     }
 }

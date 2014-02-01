@@ -6,22 +6,31 @@ use Behat\Behat\Context\BehatContext;
 
 use \PHPUnit_Framework_Assert as Assert;
 
-use features\bootstrap\Features\Api;
+use features\bootstrap\Features\Api,
+    features\bootstrap\Features\User;
 
 class ApiContext extends BehatContext
 {
+    private $method;
+    private $token;
+
     public function __construct()
     {
         $this->useContext('api.api', new Api);
+        $this->useContext('api.user', new User);
+    }
+
+    /**
+     * @Given /^I use the token of an admin$/
+     */
+    public function iUseTheTokenOfAnAdmin()
+    {
+        $this->token = sha1('admin');
     }
 
     public function getUrlWithToken($url)
     {
-        if ($this->method & self::LOG_TOKEN && !empty($this->token)) {
-            $url .= (false !== strrpos($url, '?') ? '&' : '?') . 'token=' . $this->token;
-        }
-
-        return $url;
+        return $url . (false !== strrpos($url, '?') ? '&' : '?') . 'token=' . $this->token;
     }
 
     /**
