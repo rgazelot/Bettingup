@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Bettingup\ApiBundle\BettingupApiBundle(),
             new Bettingup\UserBundle\BettingupUserBundle(),
             new Bettingup\CoreBundle\BettingupCoreBundle(),
+            new Bettingup\TicketBundle\BettingupTicketBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

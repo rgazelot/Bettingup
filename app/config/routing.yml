@@ -1,3 +1,8 @@
+bettingup_ticket:
+    resource: "@BettingupTicketBundle/Controller/"
+    prefix:   /
+    type: annotation
+
 bettingup_core:
     resource: "@BettingupCoreBundle/Controller/"
     prefix:   /
@@ -15,5 +20,10 @@ bettingup_user:
 
 api_bettingup_user:
     resource: "@BettingupUserBundle/Resources/config/routing.yml"
+    prefix:   /
+    type: rest
+
+api_bettingup_ticket:
+    resource: "@BettingupTicketBundle/Resources/config/routing.yml"
     prefix:   /
     type: rest
