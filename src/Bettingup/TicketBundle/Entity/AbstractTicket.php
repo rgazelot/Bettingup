@@ -4,7 +4,8 @@ namespace Bettingup\TicketBundle\Entity;
 
 use DateTime;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM,
+    Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -57,10 +58,18 @@ abstract class AbstractTicket
      */
     private $user;
 
+    /**
+     * @var Ticket
+     *
+     * @ORM\OneToMany(targetEntity="Bettingup\TicketBundle\Entity\Bet", mappedBy="ticket")
+     */
+    private $bets;
+
     public function __construct()
     {
         $this->profit    = 0;
         $this->createdAt = new DateTime;
+        $this->bets      = new ArrayCollection;
     }
 
     public function setCreatedAt($createdAt)
@@ -85,5 +94,25 @@ abstract class AbstractTicket
     public function getProfit()
     {
         return $this->profit;
+    }
+
+    public function addBet(Bet $bet)
+    {
+        $bet->setTicket($this);
+        $this->bets->add($bet);
+
+        return $this;
+    }
+
+    public function removeBet(Bet $bet)
+    {
+        $this->bets->removeElement($bet);
+
+        return $this;
+    }
+
+    public function getBets()
+    {
+        return $this->bets;
     }
 }
