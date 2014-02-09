@@ -7,7 +7,8 @@ use Behat\Behat\Context\BehatContext;
 use \PHPUnit_Framework_Assert as Assert;
 
 use features\bootstrap\Features\Api,
-    features\bootstrap\Features\User;
+    features\bootstrap\Features\User,
+    features\bootstrap\Features\Ticket;
 
 class ApiContext extends BehatContext
 {
@@ -18,6 +19,7 @@ class ApiContext extends BehatContext
     {
         $this->useContext('api.api', new Api);
         $this->useContext('api.user', new User);
+        $this->useContext('api.ticket', new Ticket);
     }
 
     /**

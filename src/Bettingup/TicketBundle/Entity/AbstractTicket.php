@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM,
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Bettingup\UserBundle\Entity\User;
+
 /**
  * @ORM\Entity(repositoryClass="Bettingup\TicketBundle\Entity\TicketRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -61,13 +63,13 @@ abstract class AbstractTicket
     /**
      * @var Ticket
      *
-     * @ORM\OneToMany(targetEntity="Bettingup\TicketBundle\Entity\Bet", mappedBy="ticket")
+     * @ORM\OneToMany(targetEntity="Bettingup\TicketBundle\Entity\Bet", mappedBy="ticket", cascade={"persist", "remove"})
      */
     private $bets;
 
     public function __construct()
     {
-        $this->profit    = 0;
+        $this->profit    = 0.0;
         $this->createdAt = new DateTime;
         $this->bets      = new ArrayCollection;
     }
@@ -114,5 +116,17 @@ abstract class AbstractTicket
     public function getBets()
     {
         return $this->bets;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 }

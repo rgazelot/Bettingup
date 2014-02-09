@@ -36,13 +36,13 @@ class Simple extends AbstractTicket
 
     public function setAmount($amount)
     {
-        $this->amount = $amount;
+        $this->options['amount'] = $amount;
 
         return $this;
     }
 
     public function getBet()
     {
-        return $this->amount;
+        return $this->options['amount'];
     }
 }

@@ -2,25 +2,32 @@
 
 namespace Bettingup\TicketBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use DomainException;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller,
+    Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use FOS\RestBundle\Controller\FOSRestController;
 
 use Bettingup\TicketBundle\Entity\Ticket,
-    Bettingup\TicketBundle\Entity\Bet;
+    Bettingup\TicketBundle\Entity\Bet,
+    Bettingup\TicketBundle\Form\Api\Ticket\SimpleType,
+
+    Bettingup\CoreBundle\Exception\FormNotValidException;
 
 class ApiTicketController extends FOSRestController
 {
-    public function getTicketAction($id)
+    public function postTicketAction(Request $request)
     {
-        $bet = new Bet;
-        $simple = (new Ticket\Simple)
-            ->addBet((new Bet))
-            ->addBet((new Bet))
-            ->addBet(($bet));
-        var_dump(count($simple->getBets()));
-        $simple->removeBet($bet);
-        die(var_dump($simple));
-        return $this->view($this->get('bettingup.api.user')->get($slug), 200);
+        try {
+            $ticket = $this->get('bettingup.api.ticket')->create($request->request->all(), $this->getUser());
+
+            return $this->view($ticket, 201);
+        } catch (DomainException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        } catch (FormNotValidException $e) {
+            throw new BadRequestHttpException($e->getErrors());
+        }
     }
 }

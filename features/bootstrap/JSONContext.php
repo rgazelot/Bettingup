@@ -7,8 +7,6 @@ use \Exception;
 use Behat\Behat\Context\BehatContext,
     Behat\Gherkin\Node\PyStringNode;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
-
 use \PHPUnit_Framework_Assert as Assert;
 
 class JSONContext extends BehatContext
@@ -46,7 +44,7 @@ class JSONContext extends BehatContext
             $this->lastJSON = ['url'   => $url,
                                'raw'   => $data,
                                'std'   => json_decode($data),
-                               'array' => new ParameterBag(json_decode($data, true))];
+                               'array' => new Bag(json_decode($data, true))];
         }
 
         return $this->lastJSON;

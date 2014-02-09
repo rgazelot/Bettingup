@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Bettingup\TicketBundle\Entity\BetRepository")
- * @ORM\Table()
+ * @ORM\Table(name="Bet")
  */
 class Bet
 {
@@ -115,7 +115,7 @@ class Bet
 
     public function __construct()
     {
-        $this->odds   = 0;
+        $this->odds   = 0.0;
         $this->status = true;
         $this->isBank = false;
         $this->home = 0;
@@ -221,14 +221,13 @@ class Bet
         return self::getCompetitions()[$this->competition];
     }
 
-    public function setBetType($betType, $pronostic)
+    public function setBetType($betType)
     {
-        if (!isset(self::getBetTypes()[$betType]) || !isset(self::getBetTypes()[$betType][$pronostic])) {
-            throw new OutOfBoundsException("BetType or Pronostic doesn't exists.", 400);
+        if (!isset(self::getBetTypes()[$betType])) {
+            throw new OutOfBoundsException("BetType doesn't exists.", 400);
         }
 
         $this->betType   = $betType;
-        $this->pronostic = $pronostic;
 
         return $this;
     }
@@ -236,6 +235,17 @@ class Bet
     public function getBetType()
     {
         return self::getBetTypes()[$this->betType];
+    }
+
+    public function setPronostic($pronostic)
+    {
+        if (!isset(self::getBetTypes()[$this->betType][$pronostic])) {
+            throw new OutOfBoundsException("Pronostic doesn't exists.", 400);
+        }
+
+        $this->pronostic = $pronostic;
+
+        return $this;
     }
 
     public function getPronostic()
