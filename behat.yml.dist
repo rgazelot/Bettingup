@@ -1,19 +1,20 @@
 default:
   context:
+    class : 'features\bootstrap\FeatureContext'
     parameters:
       reset_database  : false
       environment     : prod
       debug           : false
 
-  # formatter:
-  #   name: progress
+  formatter:
+    name: progress
 
   options:
     stop_on_failure: true
 
   extensions:
     Behat\MinkExtension\Extension:
-      base_url : 'http://localhost:8888/Bets/web/'
+      base_url : 'http://localhost/'
       goutte   :
         guzzle_parameters :
           curl.options     :
@@ -21,3 +22,13 @@ default:
             CURLOPT_TIMEOUT        : 900
 
       default_session: goutte
+
+dev:
+  context:
+    parameters:
+      reset_database : false
+      environment    : dev
+      debug          : true
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url : 'http://localhost/app_dev.php'
