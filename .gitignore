@@ -4,6 +4,7 @@
 /app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
+!bin/create_database.sh
 
 /build/
 /vendor/

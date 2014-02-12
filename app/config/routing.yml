@@ -3,10 +3,10 @@ bettingup_ticket:
     prefix:   /
     type: annotation
 
-bettingup_core:
-    resource: "@BettingupCoreBundle/Controller/"
-    prefix:   /
-    type: annotation
+# bettingup_core:
+#     resource: "@BettingupCoreBundle/Controller/"
+#     prefix:   /
+#     type: annotation
 
 bettingup_user:
     resource: "@BettingupUserBundle/Controller/"
