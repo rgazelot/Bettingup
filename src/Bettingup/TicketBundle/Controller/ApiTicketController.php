@@ -6,7 +6,9 @@ use DomainException;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Symfony\Component\HttpFoundation\Request,
-    Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
+    Symfony\Component\HttpKernel\Exception\BadRequestHttpException,
+    Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use FOS\RestBundle\Controller\FOSRestController;
 
@@ -18,6 +20,13 @@ use Bettingup\TicketBundle\Entity\Ticket,
 
 class ApiTicketController extends FOSRestController
 {
+    public function getTicketAction(Request $request, $id)
+    {
+        try {
+            return $this->view($this->get('bettingup.api.ticket')->get($id), 200);
+        } catch (TicketNotFoundException $e) {}
+    }
+
     public function postTicketAction(Request $request)
     {
         try {
@@ -28,6 +37,18 @@ class ApiTicketController extends FOSRestController
             throw new BadRequestHttpException($e->getMessage());
         } catch (FormNotValidException $e) {
             throw new BadRequestHttpException($e->getErrors());
+        }
+    }
+
+    public function deleteTicketAction(Request $request, $id)
+    {
+        try {
+            $ticket = $this->get('bettingup.api.ticket')->get($id);
+
+            die(var_dump($ticket));
+        } catch (TicketNotFoundException $e) {
+            throw new NotFoundHttpException;
+            
         }
     }
 }

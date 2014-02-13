@@ -37,25 +37,25 @@ class Combine extends AbstractTicket
 
     public function setAmount($amount)
     {
-        $this->amount = $amount;
+        $this->options['amount'] = $amount;
 
         return $this;
     }
 
     public function getBet()
     {
-        return $this->amount;
+        return $this->options['amount'];
     }
 
     public function setTotalOdds($totalOdds)
     {
-        $this->totalOdds = $totalOdds;
+        $this->options['totalOdds'] = $totalOdds;
 
         return $this;
     }
 
     public function getTotalOdds()
     {
-        return $this->totalOdds;
+        return $this->options['totalOdds'];
     }
 }
