@@ -32,6 +32,25 @@ class Ticket
         $this->formFactory = $formFactory;
     }
 
+    /**
+     * Retrieve a collection of tickets from a user's hash
+     *
+     * @param  string $hash
+     *
+     * @return AbstractTicket[]
+     */
+    public function all($hash)
+    {
+        return $this->em->getRepository('BettingupTicketBundle:AbstractTicket')->all($hash);
+    }
+
+    /**
+     * Get a ticket
+     *
+     * @param  string $hash
+     *
+     * @return AbstractTicket
+     */
     public function get($hash)
     {
         try {
@@ -40,6 +59,17 @@ class Ticket
             throw new TicketNotFoundException;
 
         }
+    }
+
+    /**
+     * Delete a ticket
+     *
+     * @param  AbstractTicket $ticket
+     */
+    public function delete(AbstractTicket $ticket)
+    {
+        $this->em->remove($ticket);
+        $this->em->flush();
     }
 
     /**

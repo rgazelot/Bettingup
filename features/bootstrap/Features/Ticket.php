@@ -20,16 +20,32 @@ class Ticket extends BehatContext
     /**
      * @When /^I delete the ticket "([^"]*)"$/
      */
-    public function iDeleteTheTicket($id)
+    public function iDeleteTheTicket($hash)
     {
-        $this->getMainContext()->getSubContext('api')->sendRequestWithTokenAndBody('/api/1/tickets/' . $id, 'DELETE', []);
+        $this->getMainContext()->getSubContext('api')->sendRequestWithTokenAndBody('/api/1/tickets/' . $hash, 'DELETE', []);
     }
 
     /**
      * @When /^I fetch the ticket "([^"]*)"$/
      */
-    public function iFetchTheTicket($id)
+    public function iFetchTheTicket($hash)
     {
-        $this->getMainContext()->getSubContext('api')->sendRequestWithToken('/api/1/tickets/' . $id);
+        $this->getMainContext()->getSubContext('api')->sendRequestWithToken('/api/1/tickets/' . $hash);
+    }
+
+    /**
+     * @When /^I fetch the tickets of the user "([^"]*)"$/
+     */
+    public function iFetchTheTicketsOfTheUser($hash)
+    {
+        $this->getMainContext()->getSubContext('api')->sendRequestWithTokenAndValues('/api/1/tickets', 'GET', ['user' => $hash]);
+    }
+
+    /**
+     * @When /^I fetch the tickets without parameters$/
+     */
+    public function iFetchTheTicketsWithoutParameters()
+    {
+        $this->getMainContext()->getSubContext('api')->sendRequestWithTokenAndValues('/api/1/tickets', 'GET', []);
     }
 }

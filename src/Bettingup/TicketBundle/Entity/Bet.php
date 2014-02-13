@@ -117,14 +117,15 @@ class Bet
 
     public function __construct()
     {
-        $this->odds   = 0.0;
-        $this->status = true;
-        $this->isBank = false;
-        $this->home = 0;
-        $this->visitor = 0;
+        $this->hash        = $this->generateHash();
+        $this->odds        = 0.0;
+        $this->status      = true;
+        $this->isBank      = false;
+        $this->home        = 0;
+        $this->visitor     = 0;
         $this->competition = 0;
-        $this->betType = 0;
-        $this->pronostic = 0;
+        $this->betType     = 0;
+        $this->pronostic   = 0;
     }
 
     public function setOdds($odds)

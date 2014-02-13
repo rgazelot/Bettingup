@@ -15,6 +15,7 @@ class LoadTicketData extends AbstractFixture
 {
     public function load(ObjectManager $manager)
     {
+        // Ticket owned by behat01
         $manager->persist((new Ticket\Simple)
             ->setHash('simple1')
             ->setAmount(10)
@@ -31,6 +32,23 @@ class LoadTicketData extends AbstractFixture
             )
         );
 
+        // Another Ticket owned by behat01
+        $manager->persist((new Ticket\Simple)
+            ->setHash('simple2')
+            ->setAmount(10)
+            ->setUser($this->getReference('user.behat.1'))
+            ->addBet((new Bet)
+                ->setHome(1)
+                ->setVisitor(2)
+                ->setCompetition(0)
+                ->setOdds(1.2)
+                ->setStatus(true)
+                ->setBetType(0)
+                ->setPronostic(0)
+            )
+        );
+
+        // Ticket owned by behat02
         $manager->persist((new Ticket\Combine)
             ->setHash('combin1')
             ->setAmount(20)
@@ -53,6 +71,22 @@ class LoadTicketData extends AbstractFixture
                 ->setOdds(1.5)
                 ->setStatus(true)
                 ->setBetType(1)
+                ->setPronostic(0)
+            )
+        );
+
+        // Ticket to be deleted
+        $manager->persist((new Ticket\Combine)
+            ->setHash('delete1')
+            ->setAmount(20)
+            ->setUser($this->getReference('user.behat.1'))
+            ->addBet((new Bet)
+                ->setHome(1)
+                ->setVisitor(2)
+                ->setCompetition(0)
+                ->setOdds(1.2)
+                ->setStatus(false)
+                ->setBetType(0)
                 ->setPronostic(0)
             )
         );
