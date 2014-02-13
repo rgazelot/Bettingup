@@ -24,4 +24,12 @@ class Ticket extends BehatContext
     {
         $this->getMainContext()->getSubContext('api')->sendRequestWithTokenAndBody('/api/1/tickets/' . $id, 'DELETE', []);
     }
+
+    /**
+     * @When /^I fetch the ticket "([^"]*)"$/
+     */
+    public function iFetchTheTicket($id)
+    {
+        $this->getMainContext()->getSubContext('api')->sendRequestWithToken('/api/1/tickets/' . $id);
+    }
 }

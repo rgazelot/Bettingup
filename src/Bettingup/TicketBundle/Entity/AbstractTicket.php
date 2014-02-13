@@ -9,7 +9,9 @@ use Doctrine\ORM\Mapping as ORM,
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Bettingup\UserBundle\Entity\User;
+use Bettingup\UserBundle\Entity\User,
+
+    Bettingup\CoreBundle\Traits\Entity\HashTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Bettingup\TicketBundle\Entity\TicketRepository")
@@ -24,6 +26,8 @@ use Bettingup\UserBundle\Entity\User;
  */
 abstract class AbstractTicket
 {
+    use HashTrait;
+
     /**
      * @var int
      *
@@ -69,6 +73,7 @@ abstract class AbstractTicket
 
     public function __construct()
     {
+        $this->hash      = $this->generateHash();
         $this->profit    = 0.0;
         $this->createdAt = new DateTime;
         $this->bets      = new ArrayCollection;

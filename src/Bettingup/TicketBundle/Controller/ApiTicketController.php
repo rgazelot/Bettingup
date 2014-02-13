@@ -12,19 +12,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
 
 use FOS\RestBundle\Controller\FOSRestController;
 
-use Bettingup\TicketBundle\Entity\Ticket,
-    Bettingup\TicketBundle\Entity\Bet,
-    Bettingup\TicketBundle\Form\Api\Ticket\SimpleType,
+use Bettingup\CoreBundle\Exception\FormNotValidException,
 
-    Bettingup\CoreBundle\Exception\FormNotValidException;
+    Bettingup\TicketBundle\Exception\TicketNotFoundException;
 
 class ApiTicketController extends FOSRestController
 {
-    public function getTicketAction(Request $request, $id)
+    public function getTicketAction(Request $request, $hash)
     {
-        try {
-            return $this->view($this->get('bettingup.api.ticket')->get($id), 200);
-        } catch (TicketNotFoundException $e) {}
+        $ticket = $this->get('bettingup.api.ticket')->get($hash);
+
+        if (!$ticket->getUser()->isEqualTo($this->getUser())) {
+            throw new TicketNotFoundException;
+        }
+
+        return $this->view($ticket, 200);
     }
 
     public function postTicketAction(Request $request)
@@ -48,7 +50,7 @@ class ApiTicketController extends FOSRestController
             die(var_dump($ticket));
         } catch (TicketNotFoundException $e) {
             throw new NotFoundHttpException;
-            
+
         }
     }
 }

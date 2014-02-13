@@ -8,13 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Bettingup\CoreBundle\Traits\Entity\HashTrait;
+
 /**
  * @ORM\Entity(repositoryClass="Bettingup\TicketBundle\Entity\BetRepository")
  * @ORM\Table(name="Bet")
  */
 class Bet
 {
-    use Team, Competition, BetType;
+    use Team, Competition, BetType, HashTrait;
 
     /**
      * @var int

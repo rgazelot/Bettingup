@@ -1,7 +1,7 @@
 Feature: Create Simple Ticket
 
 Scenario: Create ticket without type key
-  Given I use the token of an admin
+  Given I use the token "1e928dda66fc4031678d0e5c5557f5e2e9061614"
   When I create a ticket with these data:
   """
   {"foo":"bar"}
@@ -11,7 +11,7 @@ Scenario: Create ticket without type key
   And the JSON key "message" should be equal to "type key is missing"
 
 Scenario: Create simple ticket without amount key
-  Given I use the token of an admin
+  Given I use the token "1e928dda66fc4031678d0e5c5557f5e2e9061614"
   When I create a ticket with these data:
   """
   {
@@ -28,7 +28,7 @@ Scenario: Create simple ticket without amount key
   And the JSON key "message" should be equal to "amount key is missing"
 
 Scenario: Create simple ticket with two bets
-  Given I use the token of an admin
+  Given I use the token "1e928dda66fc4031678d0e5c5557f5e2e9061614"
   When I create a ticket with these data:
   """
   {
@@ -61,7 +61,7 @@ Scenario: Create simple ticket with two bets
   And the JSON key "message" should be equal to "A simple ticket must have only one bet."
 
 Scenario: Create Simple Ticket
-  Given I use the token of an admin
+  Given I use the token "1e928dda66fc4031678d0e5c5557f5e2e9061614"
   When I create a ticket with these data:
   """
   {

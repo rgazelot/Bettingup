@@ -10,6 +10,8 @@ use Symfony\Component\Security\Core\User\UserInterface,
     Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert,
     Symfony\Component\Validator\Constraints as Assert;
 
+use Bettingup\CoreBundle\Traits\Entity\HashTrait;
+
 /**
  * User
  *
@@ -20,6 +22,8 @@ use Symfony\Component\Security\Core\User\UserInterface,
  */
 class User implements UserInterface, \Serializable
 {
+    use HashTrait;
+
     /**
      * @var integer
      *
@@ -105,6 +109,7 @@ class User implements UserInterface, \Serializable
 
     public function __construct()
     {
+        $this->hash     = $this->generateHash();
         $this->isActive = false;
         $this->signupAt = new Datetime;
         $this->roles    = ['ROLE_USER'];
@@ -347,5 +352,26 @@ class User implements UserInterface, \Serializable
         list (
             $this->id,
         ) = unserialize($serialized);
+    }
+
+    public function isEqualTo(User $user = null)
+    {
+        if (null === $user) {
+            return false;
+        }
+
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        if ($this->email !== $user->getEmail()) {
+            return false;
+        }
+
+        if ($this->password !== $user->getPassword()) {
+            return false;
+        }
+
+        return true;
     }
 }

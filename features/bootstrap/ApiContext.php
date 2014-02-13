@@ -23,11 +23,11 @@ class ApiContext extends BehatContext
     }
 
     /**
-     * @Given /^I use the token of an admin$/
+     * @Given /^I use the token "([^"]*)"$/
      */
-    public function iUseTheTokenOfAnAdmin()
+    public function iUseTheToken($token)
     {
-        $this->token = sha1('admin');
+        $this->token = $token;
     }
 
     public function getUrlWithToken($url)

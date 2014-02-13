@@ -6,11 +6,12 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface,
     Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Doctrine\Common\DataFixtures\FixtureInterface,
-    Doctrine\Common\Persistence\ObjectManager;
+    Doctrine\Common\Persistence\ObjectManager,
+    Doctrine\Common\DataFixtures\AbstractFixture;
 
 use Bettingup\UserBundle\Entity\User;
 
-class LoadUserData implements FixtureInterface, ContainerAwareInterface
+class LoadUserData extends AbstractFixture implements FixtureInterface, ContainerAwareInterface
 {
     private $container;
 
@@ -25,6 +26,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
         $user = (new User)
             ->setUsername('admin')
+            ->setHash('admin001')
             ->setPassword('pass')
             ->encodePassword($factory)
             ->setEmail('admin@bettingup.com')
@@ -45,6 +47,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
         $user = (new User)
             ->setUsername('behat')
+            ->setHash('behat01')
             ->setPassword('pass')
             ->encodePassword($factory)
             ->setEmail('behat@bettingup.com')
@@ -52,6 +55,25 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
             ->setApiKey(sha1('behat'))
             ->setIsActive(true);
 
+        $this->setReference('user.behat.1', $user);
         $manager->persist($user);
+
+        $user = (new User)
+            ->setUsername('behat2')
+            ->setHash('behat02')
+            ->setPassword('pass')
+            ->encodePassword($factory)
+            ->setEmail('behat2@bettingup.com')
+            ->setRoles(['ROLE_USER'])
+            ->setApiKey(sha1('behat2'))
+            ->setIsActive(true);
+
+        $this->setReference('user.behat.2', $user);
+        $manager->persist($user);
+    }
+
+    public function getOrder()
+    {
+        return 1;
     }
 }

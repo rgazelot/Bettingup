@@ -21,6 +21,6 @@ class Api extends BehatContext
      */
     public function iSendAPostRequestWithInvalidJsonData()
     {
-        $this->getMainContext()->getSubContext('api')->sendRequestWithTokenAndBody('POST', '/api/1/users', "{foo:{}");
+        $this->getMainContext()->getSubContext('api')->sendRequestWithTokenAndBody('/api/1/users', 'POST', "{foo:{}");
     }
 }

@@ -4,7 +4,8 @@ namespace Bettingup\TicketBundle\Service\Api;
 
 use DomainException;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManager,
+    Doctrine\ORM\NoResultException;
 
 use Symfony\Component\Form\FormFactory,
     Symfony\Component\Form\FormTypeInterface;
@@ -13,6 +14,7 @@ use Bettingup\TicketBundle\Entity\Ticket as TicketEntity,
     Bettingup\TicketBundle\Entity\AbstractTicket,
     Bettingup\TicketBundle\Entity\Bet,
     Bettingup\TicketBundle\Exception\InvalidSetOfBetsException,
+    Bettingup\TicketBundle\Exception\TicketNotFoundException,
     Bettingup\TicketBundle\Form\Api\Ticket as TicketType,
 
     Bettingup\CoreBundle\Exception\FormNotValidException,
@@ -30,12 +32,22 @@ class Ticket
         $this->formFactory = $formFactory;
     }
 
+    public function get($hash)
+    {
+        try {
+            return $this->em->getRepository('BettingupTicketBundle:AbstractTicket')->get($hash);
+        } catch (NoResultException $e) {
+            throw new TicketNotFoundException;
+
+        }
+    }
+
     /**
      * Create a Ticket and its Bets
-     * 
-     * @param  array  $data  
-     * @param  User   $owner 
-     * 
+     *
+     * @param  array  $data
+     * @param  User   $owner
+     *
      * @return AbstractTicket
      */
     public function create(array $data, User $owner)
@@ -71,12 +83,12 @@ class Ticket
 
     /**
      * Create a simple Ticket
-     * 
+     *
      * @param  array  $data
      *
      * @throws DomainException           If amount key doesn't exists
      * @throws InvalidSetOfBetsException If there is more than one bet
-     * 
+     *
      * @return Simple
      */
     private function createSimple(array $data)
@@ -99,9 +111,9 @@ class Ticket
 
     /**
      * Create Combine
-     * 
+     *
      * @param  array  $data
-     * 
+     *
      * @return Combine
      */
     private function createCombine(array $data)
@@ -118,7 +130,7 @@ class Ticket
         }
 
         $ticket->setAmount($data['amount']);
-        
+
         $totalOdds = 1;
         $ticket->getBets()->map(function(Bet $bet) use (&$totalOdds) {
             $totalOdds = round($bet->getOdds() * $totalOdds, 2);
