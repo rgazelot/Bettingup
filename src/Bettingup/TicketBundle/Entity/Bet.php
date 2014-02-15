@@ -149,7 +149,7 @@ class Bet
 
     public function getStatus()
     {
-        return $this;
+        return $this->status;
     }
 
     public function setIsBank($isBank)

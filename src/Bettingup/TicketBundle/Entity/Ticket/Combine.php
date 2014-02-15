@@ -42,7 +42,7 @@ class Combine extends AbstractTicket
         return $this;
     }
 
-    public function getBet()
+    public function getAmount()
     {
         return $this->options['amount'];
     }
