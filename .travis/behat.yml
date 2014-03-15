@@ -1,0 +1,24 @@
+travis:
+    context:
+        class : 'features\bootstrap\Context\FeatureContext'
+        parameters:
+            reset_database  : false
+            environment     : test
+            debug           : true
+
+    formatter:
+        name: progress
+
+    options:
+        stop_on_failure: true
+
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url : 'http://localhost/'
+            goutte   :
+                guzzle_parameters :
+                    curl.options :
+                        CURLOPT_CONNECTTIMEOUT : 0
+                        CURLOPT_TIMEOUT        : 900
+
+            default_session: goutte
