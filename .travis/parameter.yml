@@ -1,0 +1,20 @@
+parameters:
+  database_driver:      pdo_mysql
+  database_host:        127.0.0.1
+  database_port:        ~
+  database_name:        bettingup_dev
+  database_dev:         bettingup_dev
+  database_test:        bettingup_test
+  database_user:        root
+  database_password:    ~
+
+  mailer_enabled:      false
+  mailer_transport:    smtp
+
+  smtp_transport_transport:    smtp
+  smtp_transport_host:         smtp.gmail.com
+  smtp_transport_encryption:   ssl
+  smtp_transport_port:         465
+  smtp_transport_auth_mode:    login
+  smtp_transport_password:     nottrue
+

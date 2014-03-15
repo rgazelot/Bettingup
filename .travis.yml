@@ -1,0 +1,72 @@
+language: php
+
+php:
+  - 5.4
+
+env:
+  - SYMFONY_VERSION="2.2.*" DB=mysql
+
+before_install:
+  # apt-get installs
+  - sudo apt-get update
+  - sudo apt-get install -y apache2
+
+  # configure apache : tip from https://gist.github.com/3123962
+  - sudo a2enmod actions
+  - sudo a2enmod rewrite
+  - sudo a2enmod headers
+  - echo "ServerName localhost" | sudo tee -a /etc/apache2/httpd.conf
+  - echo "export PATH=/home/vagrant/.phpenv/bin:$PATH" | sudo tee -a /etc/apache2/envvars
+  - cat .travis/phpconfig | sudo tee /etc/apache2/conf.d/phpconfig
+  - cat .travis/virtualhost | sed -e "s~PATH~`pwd`~g" | sudo tee /etc/apache2/sites-available/default
+
+  # add some php.in config
+  - phpenv config-add .travis/config.ini
+
+  # restart apache
+  - sudo service apache2 restart
+
+  # npm modules
+  - npm install
+
+  # misc
+  - mysql -e 'create database bettingup_test;'
+  - sudo service redis-server restart
+
+  # handling cache & logs
+  - sudo chmod -R 0777 app/cache
+  - sudo chmod -R 0777 app/logs
+  - sudo chmod -R 0777 web/uploads
+  - sudo chmod -R 0777 web/custom
+
+before_script:
+  # basic config
+  - rm web/app.php
+  - rm app/config/config_prod.yml
+
+  # prepare env for travis
+  - cp .travis/app.php web/app.php
+  - cp .travis/behat.yml behat.yml
+  - cp .travis/config_prod.yml app/config/config_prod.yml
+  - cat .travis/parameters.yml | sed -e "s~PATH~`pwd`~g" | sed -e "s~NODE_VERSION~`node -v`~g" | tee app/config/parameters.yml
+  - cp web/.htaccess.dist web/.htaccess
+
+  # composer
+  - composer self-update
+  - composer install --dev --prefer-source --optimize-autoloader --no-interaction
+
+  ## assetic
+  #- app/console assetic:dump --force
+
+  # prepare BDD (for behat)
+  - sh bin/create_database.sh test
+
+script:
+  - npm run-script test-travis
+  - bin/phpunit -c app/ --stop-on-failure
+  - bin/behat --profile=travis
+
+after_failure:
+  - sudo cat app/logs/prod.log
+  - sudo cat /var/log/apache2/error.log
+
