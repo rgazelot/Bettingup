@@ -181,7 +181,7 @@ class Bet
         if (!isset(self::getTeams()[$home])) {
             throw new OutOfBoundsException("Team doesn't exists.", 400);
         }
-
+        //die(var_dump('ok'));
         $this->home = $home;
 
         return $this;
@@ -230,7 +230,7 @@ class Bet
             throw new OutOfBoundsException("BetType doesn't exists.", 400);
         }
 
-        $this->betType   = $betType;
+        $this->betType = $betType;
 
         return $this;
     }
@@ -242,7 +242,7 @@ class Bet
 
     public function setPronostic($pronostic)
     {
-        if (!isset(self::getBetTypes()[$this->betType][$pronostic])) {
+        if (!isset(self::getBetTypesChoices()[$this->betType][$pronostic])) {
             throw new OutOfBoundsException("Pronostic doesn't exists.", 400);
         }
 

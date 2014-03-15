@@ -6,7 +6,7 @@ use PHPUnit_Framework_TestCase;
 
 use Bettingup\TicketBundle\Entity\Bet;
 
-class BetType extends PHPUnit_Framework_TestCase
+class BetTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException OutOfBoundsException
@@ -58,7 +58,14 @@ class BetType extends PHPUnit_Framework_TestCase
      */
     public function testSetBetTypeWithoutOutOfBoundsBetType()
     {
-        (new Bet)->setBetType(1000000000000, 0);
+        (new Bet)->setBetType(1000000000000);
+    }
+
+    public function testSetBetType()
+    {
+        $bet = (new Bet)->setBetType(10);
+
+        $this->assertEquals("Nombre de buts marqués par l'équipe 1 au cours de la 2ème mi-temps:", $bet->getBetType());
     }
 
     /**
@@ -66,14 +73,15 @@ class BetType extends PHPUnit_Framework_TestCase
      */
     public function testSetBetTypeWithoutOutOfBoundsPronostic()
     {
-        (new Bet)->setBetType(0, 1000000000000);
+        (new Bet)->setPronostic(1000000000000);
     }
 
-    public function testSetBetType()
+    public function testSetPronostic()
     {
-        $bet = (new Bet)->setBetType(10, 2);
+        $bet = (new Bet)
+            ->setBetType(10)
+            ->setPronostic(2);
 
-        $this->assertEquals("Nombre de buts marqués par l'équipe 1 au cours de la 2ème mi-temps:", $bet->getBetType());
         $this->assertEquals("2 buts", $bet->getPronostic());
     }
 }

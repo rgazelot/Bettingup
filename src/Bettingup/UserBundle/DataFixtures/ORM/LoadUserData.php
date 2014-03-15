@@ -26,7 +26,7 @@ class LoadUserData extends AbstractFixture implements FixtureInterface, Containe
 
         $user = (new User)
             ->setUsername('admin')
-            ->setHash('admin001')
+            ->setHash('admin01')
             ->setPassword('pass')
             ->encodePassword($factory)
             ->setEmail('admin@bettingup.com')
