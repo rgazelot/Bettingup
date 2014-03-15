@@ -26,9 +26,6 @@ before_install:
   # restart apache
   - sudo service apache2 restart
 
-  # npm modules
-  - npm install
-
   # misc
   - mysql -e 'create database bettingup_test;'
   - sudo service redis-server restart
