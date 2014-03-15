@@ -44,7 +44,6 @@ before_script:
   - cp .travis/behat.yml behat.yml
   - cp .travis/config_prod.yml app/config/config_prod.yml
   - cat .travis/parameters.yml | sed -e "s~PATH~`pwd`~g" | sed -e "s~NODE_VERSION~`node -v`~g" | tee app/config/parameters.yml
-  - cp web/.htaccess.dist web/.htaccess
 
   # composer
   - composer self-update
