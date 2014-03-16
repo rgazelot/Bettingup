@@ -56,7 +56,6 @@ before_script:
   - sh bin/create_database.sh test
 
 script:
-  - npm run-script test-travis
   - bin/phpunit -c app/ --stop-on-failure
   - bin/behat --profile=travis
 
