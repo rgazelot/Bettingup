@@ -57,7 +57,7 @@ before_script:
 
 script:
   - bin/phpunit -c app/ --stop-on-failure
-  - bin/behat -p test
+  - bin/behat -p travis
 
 after_failure:
   - sudo cat app/logs/prod.log
